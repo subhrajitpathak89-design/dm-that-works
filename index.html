@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DM That Works ⚡</title>
+    <style>
+      :root {
+        --accent: #6C63FF;
+        --bg: #0f0f0f;
+      }
+      body {
+        background-color: var(--bg);
+        color: white;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+      .tab-active {
+        background-color: var(--accent);
+        color: white;
+      }
+      .modal-backdrop {
+        background-color: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(4px);
+      }
+    </style>
+  </head>
+  <body class="bg-[#0f0f0f] text-white min-h-screen flex flex-col p-6 md:p-10 font-sans">
+    <header class="w-full max-w-6xl mx-auto flex items-center justify-between mb-12">
+      <div class="flex items-center gap-2 text-2xl font-bold tracking-tight">
+        <span>DM That Works</span>
+        <span class="text-[#6C63FF]">⚡</span>
+      </div>
+      <div class="px-4 py-1.5 rounded-full border border-white/10 text-[10px] tracking-widest font-bold text-white/50 uppercase">
+        Free Version
+      </div>
+    </header>
+
+    <main class="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start flex-1">
+      <!-- Input Section -->
+      <section class="space-y-6">
+        <div class="space-y-4">
+          <!-- Input: Role -->
+          <div>
+            <label class="block text-[10px] uppercase tracking-widest text-white/40 font-semibold mb-2" for="role">Your Role</label>
+            <input type="text" id="role" placeholder="e.g. Freelance UI designer" 
+                   class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-[#6C63FF] transition-colors placeholder:text-white/20">
+          </div>
+
+          <!-- Input: Target -->
+          <div>
+            <label class="block text-[10px] uppercase tracking-widest text-white/40 font-semibold mb-2" for="target">Who You're DMing</label>
+            <input type="text" id="target" placeholder="e.g. SaaS startup founder" 
+                   class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-[#6C63FF] transition-colors placeholder:text-white/20">
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <!-- Input: Goal -->
+            <div>
+              <label class="block text-[10px] uppercase tracking-widest text-white/40 font-semibold mb-2" for="goal">Your Goal</label>
+              <select id="goal" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-[#6C63FF] transition-colors appearance-none cursor-pointer">
+                <option value="Get a client">Get a client</option>
+                <option value="Collab or partnership">Collab or partnership</option>
+                <option value="Ask for a job">Ask for a job</option>
+                <option value="Get a reply / start a conversation">Get a reply / start a conversation</option>
+              </select>
+            </div>
+
+            <!-- Input: Tone -->
+            <div>
+              <label class="block text-[10px] uppercase tracking-widest text-white/40 font-semibold mb-2" for="tone">Tone</label>
+              <select id="tone" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-[#6C63FF] transition-colors appearance-none cursor-pointer">
+                <option value="Professional">Professional</option>
+                <option value="Casual">Casual</option>
+                <option value="Bold">Bold</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Input: Platform (Tabs) -->
+          <div>
+            <label class="block text-[10px] uppercase tracking-widest text-white/40 font-semibold mb-2">Platform</label>
+            <div id="platform-tabs" class="flex bg-white/5 p-1 rounded-xl border border-white/10">
+              <button class="platform-tab tab-active flex-1 py-2 text-sm rounded-lg font-medium transition-all shadow-lg" data-platform="Twitter">Twitter</button>
+              <button class="platform-tab flex-1 py-2 text-sm rounded-lg hover:bg-white/5 transition-colors text-white/40 font-medium" data-platform="LinkedIn">LinkedIn</button>
+              <button class="platform-tab flex-1 py-2 text-sm rounded-lg hover:bg-white/5 transition-colors text-white/40 font-medium" data-platform="Instagram">Instagram</button>
+            </div>
+          </div>
+        </div>
+
+        <button id="generate-btn" class="w-full bg-[#6C63FF] hover:bg-[#5a52d6] text-white py-4 rounded-xl font-bold text-lg transition-all transform active:scale-[0.98] shadow-2xl shadow-[#6C63FF]/20 mt-4 flex items-center justify-center gap-2">
+          Write My DM ⚡
+        </button>
+      </section>
+
+      <!-- Output Section -->
+      <section class="h-full min-h-[400px] flex flex-col">
+        <div class="flex-1 bg-white/[0.03] border border-white/10 rounded-2xl p-8 relative flex flex-col justify-center items-center overflow-hidden">
+          <!-- Placeholder State -->
+          <div id="placeholder-state" class="text-center space-y-4">
+            <div class="w-16 h-16 bg-[#6C63FF]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-[#6C63FF] text-2xl">✍️</span>
+            </div>
+            <h3 class="text-white/60 font-medium">Your DM will appear here</h3>
+            <p class="text-white/20 text-sm max-w-[200px] mx-auto">Fill in the details to generate a high-converting message.</p>
+          </div>
+
+          <!-- Result State -->
+          <div id="output-section" class="hidden w-full h-full flex flex-col animate-in fade-in duration-500">
+            <label class="text-[10px] uppercase tracking-widest text-[#6C63FF] font-bold mb-4">Suggested Message</label>
+            <div id="output-text" class="text-xl leading-relaxed font-light text-white/90 mb-8 whitespace-pre-wrap select-all">
+              <!-- DM Content -->
+            </div>
+            <div class="mt-auto">
+              <button id="copy-btn" class="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-lg text-sm font-semibold transition-all border border-white/10">
+                Copy to Clipboard
+              </button>
+              <p class="text-white/30 text-[10px] md:text-xs mt-6 border-t border-white/10 pt-4 italic">
+                Want the follow-up message too? <span class="text-[#6C63FF] cursor-pointer hover:underline">Upgrade to Premium →</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Usage Modal -->
+    <div id="usage-modal" class="fixed inset-0 z-50 flex items-center justify-center p-6 hidden">
+      <div class="modal-backdrop absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+      <div class="relative bg-[#1a1a1a] border border-white/10 p-10 rounded-3xl max-w-md w-full text-center shadow-2xl animate-in zoom-in-95 duration-200">
+        <div class="text-5xl mb-6">💎</div>
+        <h2 class="text-2xl font-bold mb-4">Free Limit Reached</h2>
+        <p class="text-white/50 mb-8 leading-relaxed">You've used your free DM for today. Come back tomorrow or go Premium for unlimited high-converting outreach.</p>
+        <div class="flex flex-col gap-3">
+          <button id="go-premium-btn" class="w-full bg-[#6C63FF] text-white py-4 rounded-xl font-bold text-lg shadow-xl shadow-[#6C63FF]/20 transition-transform active:scale-[0.98]">
+            Go Premium
+          </button>
+          <button id="dismiss-modal-btn" class="w-full bg-transparent text-white/30 py-3 text-sm font-medium hover:text-white/60 transition-colors">
+            Maybe tomorrow
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
